@@ -1,6 +1,5 @@
 package com.example.administrator.myapplication;
 
-import android.animation.Keyframe;
 import android.animation.ObjectAnimator;
 import android.animation.PropertyValuesHolder;
 import android.animation.TypeEvaluator;
@@ -8,9 +7,8 @@ import android.graphics.PointF;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
-import android.widget.ImageView;
 
-import com.example.administrator.myapplication.utils.Utils;
+import com.example.administrator.myapplication.custom.CameraView;
 
 import java.util.Arrays;
 import java.util.List;

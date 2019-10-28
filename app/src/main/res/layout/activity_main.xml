@@ -22,7 +22,7 @@
         android:background="#300000ff"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-    <com.example.administrator.myapplication.MaterialEditText
+    <com.example.administrator.myapplication.custom.MaterialEditText
         android:id="@+id/met"
         app:bbb="true"
         android:hint="Username"
