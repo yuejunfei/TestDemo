@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <!--<ImageView-->
+        <!--android:id="@+id/im_view"-->
+        <!--android:background="@mipmap/wechatshare"-->
+        <!--android:layout_width="100dp"-->
+        <!--android:layout_height="100dp" />-->
+
+    <!--<com.example.administrator.myapplication.CircleView-->
+        <!--android:id="@+id/circleview"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent" />-->
+
+    <com.example.administrator.myapplication.CameraView
+        android:id="@+id/cameraview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <!--<com.example.administrator.myapplication.PointView-->
+        <!--android:id="@+id/pointview"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent" />-->
+
+    <!--<com.example.administrator.myapplication.ProvinceView-->
+        <!--android:id="@+id/province"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent" />-->
+
+
+</android.support.constraint.ConstraintLayout>
