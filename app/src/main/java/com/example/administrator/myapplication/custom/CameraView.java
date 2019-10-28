@@ -1,4 +1,4 @@
-package com.example.administrator.myapplication;
+package com.example.administrator.myapplication.custom;
 
 import android.content.Context;
 import android.graphics.Bitmap;

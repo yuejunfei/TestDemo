@@ -1,19 +1,17 @@
-package com.example.administrator.myapplication;
+package com.example.administrator.myapplication.custom;
 
 import android.animation.ObjectAnimator;
-import android.bluetooth.le.AdvertiseData;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.AttributeSet;
-import android.widget.EditText;
 
+import com.example.administrator.myapplication.R;
 import com.example.administrator.myapplication.utils.Utils;
 
 public class MaterialEditText extends android.support.v7.widget.AppCompatEditText {

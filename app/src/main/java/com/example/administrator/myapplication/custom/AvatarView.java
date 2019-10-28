@@ -1,4 +1,4 @@
-package com.example.administrator.myapplication;
+package com.example.administrator.myapplication.custom;
 
 
 import android.content.Context;
@@ -16,6 +16,7 @@ import android.support.annotation.RequiresApi;
 import android.util.AttributeSet;
 import android.view.View;
 
+import com.example.administrator.myapplication.R;
 import com.example.administrator.myapplication.utils.Utils;
 
 public class AvatarView extends View {
@@ -68,7 +69,7 @@ public class AvatarView extends View {
     Bitmap getAvatar(int width){
         BitmapFactory.Options options = new BitmapFactory.Options();
         options.inJustDecodeBounds=true;
-        BitmapFactory.decodeResource(getResources(),R.mipmap.wechatshare,options);
+        BitmapFactory.decodeResource(getResources(), R.mipmap.wechatshare,options);
         options.inJustDecodeBounds=false;
         options.inDensity=options.outWidth;
         options.inTargetDensity=width;
