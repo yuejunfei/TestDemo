@@ -12,6 +12,7 @@ import android.text.TextPaint;
 import android.util.AttributeSet;
 import android.view.View;
 
+import com.example.administrator.myapplication.R;
 import com.example.administrator.myapplication.utils.Utils;
 
 import java.nio.charset.StandardCharsets;

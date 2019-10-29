@@ -69,7 +69,7 @@ public class AvatarView extends View {
     Bitmap getAvatar(int width){
         BitmapFactory.Options options = new BitmapFactory.Options();
         options.inJustDecodeBounds=true;
-        BitmapFactory.decodeResource(getResources(),R.mipmap.wechatshare,options);
+        BitmapFactory.decodeResource(getResources(), R.mipmap.wechatshare,options);
         options.inJustDecodeBounds=false;
         options.inDensity=options.outWidth;
         options.inTargetDensity=width;
