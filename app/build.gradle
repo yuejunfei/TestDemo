@@ -4,7 +4,7 @@ android {
     compileSdkVersion 27
     defaultConfig {
         applicationId "com.example.administrator.myapplication"
-        minSdkVersion 16
+        minSdkVersion 19
         targetSdkVersion 27
         versionCode 1
         versionName "1.0"
@@ -31,4 +31,6 @@ dependencies {
             'com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
+    //添加 TransitionManager API。从一个 support library 里面能够获取到 TransistionManager API。你可以添加 gradle 依赖。
+    implementation 'com.android.support:transition:27.1.0'
 }
