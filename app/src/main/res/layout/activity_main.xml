@@ -7,29 +7,33 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <FrameLayout
-        android:background="#3000ff00"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-    <EditText
+    <!--<FrameLayout-->
+        <!--android:background="#3000ff00"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content">-->
+    <!--<EditText-->
 
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-    </FrameLayout>
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content" />-->
+    <!--</FrameLayout>-->
 
 
-    <FrameLayout
-        android:background="#300000ff"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-    <com.example.administrator.myapplication.custom.MaterialEditText
-        android:id="@+id/met"
-        app:bbb="true"
-        android:hint="Username"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-    </FrameLayout>
+    <!--<FrameLayout-->
+        <!--android:background="#300000ff"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content">-->
+    <!--<com.example.administrator.myapplication.custom.MaterialEditText-->
+        <!--android:id="@+id/met"-->
+        <!--app:bbb="true"-->
+        <!--android:hint="Username"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content" />-->
+    <!--</FrameLayout>-->
 
+
+    <com.example.administrator.myapplication.custom.ScalableImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 
 
 
