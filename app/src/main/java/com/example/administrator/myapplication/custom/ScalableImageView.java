@@ -1,6 +1,7 @@
 package com.example.administrator.myapplication.custom;
 
 import android.animation.ObjectAnimator;
+import android.bluetooth.le.ScanCallback;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -11,6 +12,7 @@ import android.support.v4.view.GestureDetectorCompat;
 import android.util.AttributeSet;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
+import android.view.ScaleGestureDetector;
 import android.view.View;
 import android.widget.OverScroller;
 
@@ -32,7 +34,7 @@ public class ScalableImageView extends View {
     //小图的比例
     float smallScale;
     boolean big;
-    float scaleFraction;
+    float currentScale;
     float maxOffsetX;
     float maxOffsetY;
 
@@ -42,6 +44,9 @@ public class ScalableImageView extends View {
     ObjectAnimator scalenAnimator;
     //滚动器（滑动器）
     OverScroller scroller;
+    //双指缩放
+    ScaleGestureDetector scaleDetetor;
+    ScaleGestureDetector.OnScaleGestureListener henScaleListener=new HenScaleListener();
 
 
     public ScalableImageView(Context context, @Nullable AttributeSet attrs) {
@@ -50,6 +55,10 @@ public class ScalableImageView extends View {
         bitmap = getAvatar((int) IMAGE_WIDTH);
         //创建滚动器  （Scroller适用于移动，OverScroller适用于跟手惯性滑动）
         scroller = new OverScroller(getContext());
+
+        //双指缩放的监听器
+        scaleDetetor=new ScaleGestureDetector(getContext(),henScaleListener);
+
         //侦查器(配合外挂使用) ⽤于在点击和⻓按之外，增加其他⼿势的监听，例如双击、滑动。
         //GestureDetector.SimpleOnGestureListener() 双监听器支持（OnGestureListener,
         // OnDoubleTapListener这俩种监听器）
@@ -84,9 +93,8 @@ public class ScalableImageView extends View {
                 //if  限制下  限制放大后才能移动，缩小后不能移动
                 if (big) {
                     offsetX -= distanceX;
-                    offsetX = Math.max(Math.min(offsetX, maxOffsetX), -maxOffsetX);
                     offsetY -= distanceY;
-                    offsetY = Math.max(Math.min(offsetY, maxOffsetY), -maxOffsetY);
+                    fixOffsets();
                     invalidate();
                 }
                 return false;
@@ -152,6 +160,10 @@ public class ScalableImageView extends View {
                 // 注意：第⼆次触摸到屏幕时就调⽤，⽽不是抬起时
                 big = !big;
                 if (big) {
+                    //双击额外放大
+                    offsetX=(e.getX()-getWidth()/2)*(1-bigScale/smallScale);
+                    offsetY=(e.getY()-getHeight()/2)*(1-bigScale/smallScale);
+                    fixOffsets();
                     //双击开启动画
                     getscaleAnimator().start();
                 } else {
@@ -175,6 +187,11 @@ public class ScalableImageView extends View {
 
     }
 
+    private void fixOffsets() {
+        offsetX = Math.max(Math.min(offsetX, maxOffsetX), -maxOffsetX);
+        offsetY = Math.max(Math.min(offsetY, maxOffsetY), -maxOffsetY);
+    }
+
 //    private void refresh() {
 //        scroller.computeScrollOffset();
 //        offsetX= scroller.getCurrX();
@@ -182,20 +199,21 @@ public class ScalableImageView extends View {
 //        invalidate();
 //    }
 
-    public float getScaleFraction() {
-        return scaleFraction;
+    public float getCurrentScale() {
+        return currentScale;
     }
 
-    public void setScaleFraction(float scaleFraction) {
-        this.scaleFraction = scaleFraction;
+    public void setCurrentScale(float currentScale) {
+        this.currentScale = currentScale;
         invalidate();
 
     }
 
     private ObjectAnimator getscaleAnimator() {
         if (scalenAnimator == null) {
-            scalenAnimator = ObjectAnimator.ofFloat(this, "scaleFraction", 0, 1);
+            scalenAnimator = ObjectAnimator.ofFloat(this, "currentScale", smallScale, bigScale);
         }
+        scalenAnimator.setFloatValues(smallScale,bigScale);
         return scalenAnimator;
     }
 
@@ -215,7 +233,7 @@ public class ScalableImageView extends View {
             smallScale = (float) getHeight() / bitmap.getHeight();
             bigScale = (float) getWidth() / bitmap.getWidth() * OVER_SCALE_FACTOR;
         }
-
+        currentScale=smallScale;
         maxOffsetX = (bitmap.getWidth() * bigScale - getWidth()) / 2;
         maxOffsetY = (bitmap.getHeight() * bigScale - getHeight()) / 2;
     }
@@ -223,19 +241,22 @@ public class ScalableImageView extends View {
     //外挂 更改侦测算法
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        return detector.onTouchEvent(event);
+        boolean b = scaleDetetor.onTouchEvent(event);
+        if (!scaleDetetor.isInProgress()){
+            b= detector.onTouchEvent(event);
+        }
+        return b;
     }
 
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
 
+        float scaleFraction=(currentScale-smallScale)/(bigScale-smallScale);
         //放大之后 在偏移
-        canvas.translate(offsetX, offsetY);
-        //根据缩放比*移动的距离   得出实际滑动距离
-        float scale = smallScale + (bigScale - smallScale) * scaleFraction;
+        canvas.translate(offsetX*scaleFraction, offsetY*scaleFraction);
         //缩放
-        canvas.scale(scale, scale, getWidth() / 2f, getHeight() / 2f);
+        canvas.scale(currentScale, currentScale, getWidth() / 2f, getHeight() / 2f);
         //获取图片并放置屏幕中心
         canvas.drawBitmap(bitmap, originalOffsetX, originalOffsetY, paint);
 
@@ -254,4 +275,27 @@ public class ScalableImageView extends View {
     }
 
 
+    private class HenScaleListener implements ScaleGestureDetector.OnScaleGestureListener {
+
+        private float initialCurrentScale;
+
+        @Override
+        public boolean onScale(ScaleGestureDetector detector) {
+            currentScale=initialCurrentScale*detector.getScaleFactor();
+            invalidate();
+            return false;
+        }
+
+        @Override
+        public boolean onScaleBegin(ScaleGestureDetector detector) {
+            //标识是否要消费这个
+            initialCurrentScale=currentScale;
+            return true;
+        }
+
+        @Override
+        public void onScaleEnd(ScaleGestureDetector detector) {
+           //放缩结束  该重置的重置 恢复的恢复
+        }
+    }
 }
